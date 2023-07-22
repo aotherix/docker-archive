@@ -1,23 +1,45 @@
 #!/bin/bash
 
-#-------------------------------------------------------------------------------
-# Save Archive
-# Copyright (c) 2023 Rogerio O. Ferraz <aotherix@gmail.com>
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------*
+# docker-archive/save-archive 1.0.0 BETA                                       *
+#                                                                              *
+# MIT License                                                                  *
+#                                                                              *
+# Copyright (c) 2023 Rogerio O. Ferraz <rogerio.o.ferraz@gmail.com>            *
+#                                                                              *
+# Permission is hereby granted, free of charge, to any person obtaining a copy *
+# of this software and associated documentation files (the "Software"), to deal*
+# in the Software without restriction, including without limitation the rights *
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell    *
+# copies of the Software, and to permit persons to whom the Software is        *
+# furnished to do so, subject to the following conditions:                     *
+#                                                                              *
+# The above copyright notice and this permission notice shall be included in   *
+# all copies or substantial portions of the Software.                          *
+#                                                                              *
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR   *
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,     *
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  *
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER       *
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,*
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN    *
+# THE SOFTWARE.                                                                *
+#                                                                              *
+#------------------------------------------------------------------------------*
 
-VERSION="save-archive v1.0.0"
+VERSION="save-archive 1.0.0 BETA"
 
 readonly SCRIPTNAME=$(basename "${0}")
 SCRIPTDIR=$(readlink -m $(dirname "${0}"))
 
 USAGE="Usage: ${SCRIPTNAME} --image-list imagelist [--server server] [--debug]
 
-Save a list of docker images on the dockerarchive server.
+Save a list of docker images on the docker-archive server.
 
 If the imagelist file is unspecified, then the file image-list is used by default, 
-and it must be available in the dockerarchive server.
+and it must be available in the docker-archive server.
 
-A server address may be omitted, if the script runs inside the dockerarchive server.
+A server address may be omitted, if the script runs inside the docker-archive server.
 
 ARGUMENTS:
   server      : server address
@@ -75,11 +97,11 @@ if [ ! -s ${imagelist} ]; then
 fi
 
 if [[ "${SERVER}" != *"@localhost" ]]; then
-  echo "Transferring resources to the dockerarchive server..."
-  rsync -avP --relative ${SCRIPTNAME} ${imagelist} ${SERVER}:~/dockerarchive
+  echo "Transferring resources to the docker-archive server..."
+  rsync -avP --relative ${SCRIPTNAME} ${imagelist} ${SERVER}:~/docker-archive
 
-  echo "Connecting to the dockerarchive server..."
-  ssh -t ${SERVER} "~/dockerarchive/${SCRIPTNAME} --image-list ~/dockerarchive/${imagelist} ${DEBUG}"
+  echo "Connecting to the docker-archive server..."
+  ssh -t ${SERVER} "~/docker-archive/${SCRIPTNAME} --image-list ~/docker-archive/${imagelist} ${DEBUG}"
   exit
 fi
 
@@ -87,19 +109,19 @@ fi
 # On Server
 #-------------------------
 
-imagelist=${imagelist/#*\/dockerarchive\//""}
+imagelist=${imagelist/#*\/docker-archive\//""}
 
-if [ ! -d ~/dockerarchive ]; then
-  ln -s "${SCRIPTDIR}" ~/dockerarchive
-  rsync "${SCRIPTNAME}" ~/dockerarchive
-  rsync --relative "${imagelist}" ~/dockerarchive
+if [ ! -d ~/docker-archive ]; then
+  ln -s "${SCRIPTDIR}" ~/docker-archive
+  rsync "${SCRIPTNAME}" ~/docker-archive
+  rsync --relative "${imagelist}" ~/docker-archive
 fi
 
 date
-echo Saving images into the dockerarchive server...
+echo Saving images into the docker-archive server...
 
-mkdir -p ~/dockerarchive/images
-cd ~/dockerarchive/images
+mkdir -p ~/docker-archive/images
+cd ~/docker-archive/images
 i=1
 while read IMAGE;
   do

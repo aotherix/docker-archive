@@ -1,11 +1,33 @@
 #!/bin/bash
 
-#-------------------------------------------------------------------------------
-# Load Archive
-# Copyright (c) 2023 Rogerio O. Ferraz <aotherix@gmail.com>
-#-------------------------------------------------------------------------------
+#------------------------------------------------------------------------------*
+# docker-archive/load-archive 1.0.0 BETA                                       *
+#                                                                              *
+# MIT License                                                                  *
+#                                                                              *
+# Copyright (c) 2023 Rogerio O. Ferraz <rogerio.o.ferraz@gmail.com>            *
+#                                                                              *
+# Permission is hereby granted, free of charge, to any person obtaining a copy *
+# of this software and associated documentation files (the "Software"), to deal*
+# in the Software without restriction, including without limitation the rights *
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell    *
+# copies of the Software, and to permit persons to whom the Software is        *
+# furnished to do so, subject to the following conditions:                     *
+#                                                                              *
+# The above copyright notice and this permission notice shall be included in   *
+# all copies or substantial portions of the Software.                          *
+#                                                                              *
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR   *
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,     *
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  *
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER       *
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,*
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN    *
+# THE SOFTWARE.                                                                *
+#                                                                              *
+#------------------------------------------------------------------------------*
 
-VERSION="load-archive v1.0.0"
+VERSION="load-archive 1.0.0 BETA"
 
 readonly SCRIPTNAME=$(basename "${0}")
 SCRIPTDIR=$(readlink -m $(dirname "${0}"))
@@ -129,9 +151,9 @@ if [[ "${SERVER}" == *"@localhost" ]]; then
   SERVER=${SERVER/%@localhost/@${IP}}
 fi;
 
-echo "Transferring image tarballs from dockerarchive server..."
+echo "Transferring image tarballs from docker-archive server..."
 cat "${imagelist}" | tr -d '[:blank:]' | sed -e '/^$/ d' -e '/^#/ d' | sort | sed 's/$/.tar.gz/' > tgz-"${imagelist}"
-rsync -avP --files-from=tgz-"${imagelist}" "${SERVER}":~/dockerarchive/images ./images
+rsync -avP --files-from=tgz-"${imagelist}" "${SERVER}":~/docker-archive/images ./images
 
 # Login Local Registry
 while true;
@@ -149,7 +171,7 @@ while true;
 date
 echo Loading and pushing images to local registry...
 
-# Load images from dockerarchive server
+# Load images from docker-archive server
 cd images
 i=1
 while read IMAGE;
