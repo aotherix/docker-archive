@@ -8,11 +8,11 @@ It is useful:
 - to speed up the bootstrap phase;
 - and to prevent for failures due to missing images.
 
-The script save-arquive.sh saves docker images on the docker-archive server, according to a specified list of images. A remote server address can be optionally given. If omitted, the docker images are saved on the current machine.
+The script save-archive.sh saves docker images on the docker-archive server, according to a specified list of images. A remote server address can be optionally given. If omitted, the docker images are saved on the current machine.
 
 A few image list templates are provided in this repo. The lists can be edited according to the users need.
 
-The script load-archive.sh uploads images in StarlingX VM, according to a specified list of images, provided as input file. A remote server address can be optionally given. If omitted, the docker images are loaded from the current machine. A target server address can be optionally given. If omitted, the docker images are loaded onto a StarlingX VM hosted on the current machine. The images must be previously stored in the docker-arquive server, by script save-arquive.sh
+The script load-archive.sh uploads images in StarlingX VM, according to a specified list of images, provided as input file. A remote server address can be optionally given. If omitted, the docker images are loaded from the current machine. A target server address can be optionally given. If omitted, the docker images are loaded onto a StarlingX VM hosted on the current machine. The images must be previously stored in the docker-archive server, by script save-archive.sh
 
 An optional port number may be used in load-archive.sh, for the scenarios that a target VM is accessible via port-forward. Refer to the examples below.
 
